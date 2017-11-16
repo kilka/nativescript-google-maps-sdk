@@ -5,7 +5,10 @@ import {
 } from "./map-view";
 import { Point, View, Template, KeyedTemplate } from "tns-core-modules/ui/core/view";
 import { Image } from "tns-core-modules/ui/image";
+import { ImageSource } from "image-source";
 import { LayoutBase } from "tns-core-modules/ui/layouts/layout-base";
+import builder = require("ui/builder");
+import frame = require("ui/frame");
 import builder = require("ui/builder");
 import frame = require("ui/frame");
 
@@ -419,7 +422,7 @@ export abstract class MarkerBase implements Marker {
     public title: string;
     public snippet: string;
     public color: Color | string | number;
-    public icon: Image | string;
+    public icon: ImageSource|string;
     public alpha: number;
     public flat: boolean;
     public draggable: boolean;

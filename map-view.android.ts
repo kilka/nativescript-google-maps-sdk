@@ -13,6 +13,7 @@ import { Image } from "tns-core-modules/ui/image";
 import { Color } from "tns-core-modules/color";
 import { Point } from "tns-core-modules/ui/core/view";
 import imageSource = require("tns-core-modules/image-source");
+import { ImageSource } from "image-source";
 
 export * from "./map-view-common";
 
@@ -635,7 +636,7 @@ export class Bounds extends BoundsBase {
 export class Marker extends MarkerBase {
     private _android: any;
     private _color: number;
-    private _icon: Image;
+    private _icon: ImageSource;
     private _isMarker: boolean = false;
 
     static CLASS = 'com.google.android.gms.maps.model.Marker';
@@ -743,14 +744,13 @@ export class Marker extends MarkerBase {
         return this._icon;
     }
 
-    set icon(value: Image | string) {
+    set icon(value: ImageSource | string) {
         if (typeof value === 'string') {
-            var tempIcon = new Image();
-            tempIcon.imageSource = imageSource.fromResource(String(value));
-            value = tempIcon;
+            value = imageSource.fromResource(String(value));
         }
-        this._icon = value;
-        var androidIcon = (value) ? com.google.android.gms.maps.model.BitmapDescriptorFactory.fromBitmap(value.imageSource.android) : null;
+        
+        this._icon = value as ImageSource;
+        var androidIcon = (value) ? com.google.android.gms.maps.model.BitmapDescriptorFactory.fromBitmap(value.android) : null;
         if (this._isMarker) {
             this._android.setIcon(androidIcon);
         } else {
