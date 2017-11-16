@@ -12,8 +12,7 @@ import {
 import { Image } from "tns-core-modules/ui/image";
 import { Color } from "tns-core-modules/color";
 import { Point } from "tns-core-modules/ui/core/view";
-import imageSource = require("tns-core-modules/image-source");
-import { ImageSource } from "image-source";
+import * as ImageSource from"tns-core-modules/image-source";
 
 export * from "./map-view-common";
 
@@ -636,7 +635,7 @@ export class Bounds extends BoundsBase {
 export class Marker extends MarkerBase {
     private _android: any;
     private _color: number;
-    private _icon: ImageSource;
+    private _icon: ImageSource.ImageSource;
     private _isMarker: boolean = false;
 
     static CLASS = 'com.google.android.gms.maps.model.Marker';
@@ -744,12 +743,13 @@ export class Marker extends MarkerBase {
         return this._icon;
     }
 
-    set icon(value: ImageSource | string) {
+    set icon(value : any) {
         if (typeof value === 'string') {
-            value = imageSource.fromResource(String(value));
+            value = ImageSource.fromResource(String(value));
+            
         }
         
-        this._icon = value as ImageSource;
+        this._icon = value as ImageSource.ImageSource
         var androidIcon = (value) ? com.google.android.gms.maps.model.BitmapDescriptorFactory.fromBitmap(value.android) : null;
         if (this._isMarker) {
             this._android.setIcon(androidIcon);
